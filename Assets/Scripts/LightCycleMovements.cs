@@ -19,7 +19,7 @@ public class LightCycleMovements : MonoBehaviour {
 		transform.Translate(speed * Vector3.forward * Time.deltaTime);
 
 		if(startingWall) {
-			this.currentWall = (GameObject)Instantiate(wallObject, wallPosition.position, transform.rotation);
+			this.currentWall = (GameObject)Instantiate(wallObject, Vector3.zero, transform.rotation);
 			this.startingWall = false;
 		}
 		else {

@@ -9,4 +9,8 @@ public class Wall : MonoBehaviour {
 		scale.z = Vector3.Distance(A, B);
 		this.transform.localScale = scale;
 	}
+
+	/*void OnTriggerEnter(Collider other) {
+		Debug.Log("wall death");
+	}*/
 }
