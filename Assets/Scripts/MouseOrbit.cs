@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MouseOrbit : MonoBehaviour {
 
+	public bool shouldOrbit = true;
 	public Transform target;
 	public float distance = 5.0f;
 	public float xSpeed = 120.0f;
@@ -12,9 +13,9 @@ public class MouseOrbit : MonoBehaviour {
 	
 	private float x = 0.0f;
 	private float y = 0.0f;
-	
+
 	void LateUpdate () {
-		if (target) {
+		if(shouldOrbit && target) {
 			x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
 			y = Mathf.Clamp(y - Input.GetAxis("Mouse Y") * ySpeed * 0.02f, 2, 100);
 

@@ -8,23 +8,24 @@ public class LightCycleMovements : NetworkBehaviour {
 	public Transform wallPosition;
 
 	public GameObject currentWall;
-	//[SyncVar]
 	private Vector3 lastPosition = Vector3.zero;
 	private bool startingWall = true;
+	public byte playerNumber = 0;
 
 	void Start() {
 		lastPosition = new Vector3(wallPosition.transform.position.x, wallPosition.transform.position.y, 0);
-		//lastPosition = wallPosition.transform.position;
 	}
 
 	void Update() {
 		transform.Translate(speed * Vector3.forward * Time.deltaTime);
 		if(this.GetComponent<LightCycle>().currentWall)
 			currentWall = this.GetComponent<LightCycle>().currentWall;
+		if(this.GetComponent<LightCycle>().localCurrentWall)
+			currentWall = this.GetComponent<LightCycle>().localCurrentWall;
 		if(startingWall) {
 			if(currentWall)
 				this.currentWall.GetComponent<Wall>().isFixed = true;
-			/*this.currentWall = */this.GetComponent<LightCycle>().SpawnWall();
+			this.GetComponent<LightCycle>().SpawnWall();
 			this.startingWall = false;
 		}
 		else {
@@ -32,30 +33,13 @@ public class LightCycleMovements : NetworkBehaviour {
 				currentWall.GetComponent<Wall>().FitBetween(lastPosition, wallPosition.position);
 		}
 
-
-		if(this.isLocalPlayer) {
-			if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-				transform.RotateAround(wallPosition.position, Vector3.up, -90);
-				this.lastPosition = wallPosition.position;
-				this.startingWall = true;
-
-			}
-			else if(Input.GetKeyDown(KeyCode.RightArrow)) {
-				transform.RotateAround(wallPosition.position, Vector3.up, 90);
+		if(this.isLocalPlayer || Application.loadedLevelName == "LocalGame") {
+			if(((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) && (playerNumber == 0 || playerNumber == 2)) || 
+			   ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.D)) && (playerNumber == 1))) {
+				transform.RotateAround(wallPosition.position, Vector3.up, Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Q) ? -90 : 90);
 				this.lastPosition = wallPosition.position;
 				this.startingWall = true;
 			}
 		}
 	}
-	/*
-	void FixedUpdate() {
-		if(currentWall && !startingWall)
-			currentWall.GetComponent<Wall>().FitBetween(lastPosition, wallPosition.position);
-	}*/
-
-	/*[ClientRpc]
-	void RpcOnTurn() {
-		this.lastPosition = wallPosition.position;
-		this.startingWall = true;
-	}*/
 }
