@@ -6,8 +6,7 @@ public class ScaleSyncronizer : NetworkBehaviour {
 	
 	[SyncVar]
 	float localScaleZ = 1f;
-	
-	// Update is called once per frame
+
 	void Update() {
 		if(hasAuthority) {
 			this.localScaleZ = this.transform.localScale.z;
