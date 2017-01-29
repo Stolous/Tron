@@ -13,8 +13,10 @@ public class LightCycle : NetworkBehaviour {
 	public GameObject localCurrentWall;
 
 	void OnTriggerEnter(Collider other) {
-		if(Network.isServer)
+		try {
 			GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopServer();
+		}
+		catch(System.Exception e) {}
 		Debug.Log("Player lost");
 		Application.LoadLevel("GameFinished");
 	}

@@ -14,6 +14,6 @@ public class LocalLightCycle : LightCycle {
 		wall.GetComponent<Wall>().player = this.gameObject;
 
 		this.localCurrentWall = wall;
-		Debug.Log("spawned wall");
+		//Debug.Log("spawned wall");
 	}
 }
